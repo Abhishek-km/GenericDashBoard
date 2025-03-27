@@ -34,8 +34,8 @@ const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
                 <img
                   src="https://static.vecteezy.com/system/resources/previews/003/689/228/large_2x/online-registration-or-sign-up-login-for-account-on-smartphone-app-user-interface-with-secure-password-mobile-application-for-ui-web-banner-access-cartoon-people-illustration-vector.jpg"
                   alt="registration"
-                  width="500"
-                  height="500"
+                  width="1000"
+                  height="1000"
                 />
               </div>
               {/* <!-- Registration Form --> */}
@@ -98,7 +98,7 @@ const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
                   </div>
                   <br />
                   <button type="submit" className="btn btn-submit">
-                    Register
+                    Register Now
                   </button>
                 </form>
               </div>
