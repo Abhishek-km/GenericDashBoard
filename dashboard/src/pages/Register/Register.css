@@ -1,0 +1,105 @@
+/* General Styles for the Form */
+.section-registration {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Full viewport height */
+    background-color: #f9f9f9; /* Light background color */
+  }
+  
+  .container {
+    width: 100%;
+    max-width: 600px; /* Adjust the max width to reduce horizontal space */
+    padding: 1rem; /* Reduce padding */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    flex-wrap: wrap;
+  }
+  
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+  
+  .registration-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .registration-image .image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+  }
+  
+  .registration-form {
+    background-color: #ffffff; /* White background for the form */
+    padding: 1.5rem; /* Reduce padding inside the form */
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for better appearance */
+    max-width: 400px;
+    width: 100%;
+  }
+  
+  .main-heading {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .registration-form-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .form-group {
+    margin-bottom: 1rem; /* Keep vertical spacing consistent */
+  }
+  
+  .form-label {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #555;
+  }
+  
+  .form-input {
+    width: 100%;
+    padding: 0.5rem; /* Reduce padding inside inputs */
+    margin-top: 8px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    font-size: 1rem;
+    transition: border 0.3s ease;
+  }
+  
+  .form-input:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 10px rgba(0, 123, 255, 0.2);
+  }
+  
+  .btn-submit {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  
+  .btn-submit:hover {
+    background-color: #0056b3;
+  }
+  
+  @media screen and (min-width: 768px) {
+    .grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }

@@ -1,16 +1,28 @@
-.container{
-    max-width: 140rem;
-    padding: 4.2rem 2.1rem;
-    display:flex;
-    justify-content: space-between;
-}
-
-ul{
-    display: flex;
-    gap: 3rem;
-
-}
-
-li{
-    list-style: none;
-}
+/* Header.css */
+.navbar {
+    background-color: white;
+  }
+  
+  .navbar .navbar-brand {
+    font-weight: bold;
+  }
+  
+  .navbar-nav .nav-link {
+    padding: 0.5rem 1rem;
+  }
+  
+  .navbar-nav .nav-link:hover {
+    background-color: #f1f1f1;
+    border-radius: 4px;
+  }
+  
+  .navbar-nav .nav-link.active {
+    font-weight: bold;
+    color: #007bff;
+  }
+  
+  .navbar-nav .nav-item img {
+    margin-right: 10px;
+    border-radius: 50%;
+  }
+  
