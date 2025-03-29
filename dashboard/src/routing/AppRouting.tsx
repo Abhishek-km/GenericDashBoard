@@ -7,6 +7,7 @@ import Login from '../pages/Login/Login'
 import Register from '../pages/Register/Register'
 import NotFound from '../pages/NotFound/NotFound'
 import Logout from '../pages/Logout/Logout'
+import DashBoard from '../pages/DashBoard/DashBoard'
 
 export default function AppRouting() {
   return (
@@ -18,6 +19,7 @@ export default function AppRouting() {
             <Route  path="/register" element={<Register />} />   
             <Route  path="*" element={<NotFound />} />  
             <Route  path="/logout" element={<Logout />} />
+            <Route  path="/dashboard" element={<DashBoard />} />
         </Routes>
 
   )
