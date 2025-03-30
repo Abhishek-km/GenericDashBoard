@@ -1,84 +1,149 @@
-import { NavLink } from 'react-router-dom'; // Corrected import for NavLink
-import './Header.css';
-import { useAuth } from '../contexts/Auth'; // Import useAuth
+import React, { useRef } from "react";
+import { NavLink } from "react-router-dom";
+import { useAuth } from "../contexts/Auth"; // Import useAuth
+import "./Header.css"; // Import the CSS for styling
 
 export default function Header() {
   const { user, logout } = useAuth() || {}; // Destructure user and logout from useAuth
 
+  const navbarCollapseRef = useRef<HTMLDivElement | null>(null);
+
+  const handleNavItemClick = () => {
+    if (
+      navbarCollapseRef.current &&
+      navbarCollapseRef.current.classList.contains("show")
+    ) {
+      navbarCollapseRef.current.classList.remove("show");
+    }
+  };
+
+  // Handle the logout functionality
+  const handleLogout = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (logout) {
+      logout(); // Call logout function
+    }
+    handleNavItemClick(); // Collapse the navbar after logout
+  };
+
   return (
-    <>
-      <nav className="navbar navbar-expand-lg bg-body-tertiary">
+    <div>
+      <nav className="navbar navbar-expand-lg bg-body-tertiary header-container">
         <div className="container-fluid">
+          <img
+            src="https://getbootstrap.com/docs/5.3/assets/brand/bootstrap-logo.svg"
+            alt="Bootstrap"
+            width="30"
+            height="24"
+          />
           <NavLink className="navbar-brand" to="/">
-            <img
-              src="https://static.vecteezy.com/system/resources/previews/035/642/255/non_2x/property-dashboard-icon-line-illustration-vector.jpg"
-              alt="Logo"
-              width="30"
-              height="30"
-              className="d-inline-block align-text-top me-2"
-            />
-            <strong>Comp name</strong>
+            Company name
           </NavLink>
-          <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav ms-auto me-2 mb-2 mb-lg-0">
+
+          {/* Toggle button for smaller screens */}
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span className="navbar-toggler-icon"></span>
+          </button>
+
+          <div
+            className="collapse navbar-collapse"
+            id="navbarSupportedContent"
+            ref={navbarCollapseRef}
+          >
+            {/* Navigation links */}
+            <ul className="navbar-nav mx-auto">
               <li className="nav-item">
-                <NavLink className="nav-link" aria-current="page" to="/">
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive ? "nav-link active" : "nav-link"
+                  }
+                  aria-current="page"
+                  to="/"
+                  onClick={handleNavItemClick}
+                >
                   Home
                 </NavLink>
               </li>
+
               <li className="nav-item">
-                <NavLink className="nav-link" to="/about">
-                  About
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive ? "nav-link active" : "nav-link"
+                  }
+                  to="/about"
+                  onClick={handleNavItemClick}
+                >
+                  About Us
                 </NavLink>
               </li>
-              <li className="nav-item">
-                <NavLink className="nav-link" aria-current="page" to="/contact">
-                  ContactUs
-                </NavLink>
-              </li>
+
+              {/* Show Login/Register if no user is logged in */}
               {!user ? (
                 <>
                   <li className="nav-item">
-                    <NavLink className="nav-link" aria-current="page" to="/login">
-                      <img
-                        src="https://static.vecteezy.com/system/resources/previews/015/271/968/non_2x/business-man-flat-icon-design-human-resource-and-businessman-icon-concept-man-icon-in-trendy-flat-style-symbol-for-your-web-site-design-logo-app-vector.jpg"
-                        alt="Logo"
-                        width="30"
-                        height="30"
-                        className="d-inline-block align-text-top me-2"
-                      />
+                    <NavLink
+                      className={({ isActive }) =>
+                        isActive ? "nav-link active" : "nav-link"
+                      }
+                      to="/login"
+                      onClick={handleNavItemClick}
+                    >
                       Login
                     </NavLink>
                   </li>
                   <li className="nav-item">
-                    <NavLink className="nav-link" aria-current="page" to="/register">
-                      Register
+                    <NavLink
+                      className={({ isActive }) =>
+                        isActive ? "nav-link active" : "nav-link"
+                      }
+                      to="/register"
+                      onClick={handleNavItemClick}
+                    >
+                      New Registration
                     </NavLink>
                   </li>
                 </>
               ) : (
                 <li className="nav-item">
                   <NavLink
-                    className="nav-link"
-                    aria-current="page"
+                    className={({ isActive }) =>
+                      isActive ? "nav-link active" : "nav-link"
+                    }
                     to="/logout"
-                    onClick={logout} // Call logout when the user clicks
+                    onClick={handleLogout} // Handle logout logic here
                   >
-                    <img
-                      src="https://static.vecteezy.com/system/resources/previews/015/271/968/non_2x/business-man-flat-icon-design-human-resource-and-businessman-icon-concept-man-icon-in-trendy-flat-style-symbol-for-your-web-site-design-logo-app-vector.jpg"
-                      alt="Logo"
-                      width="30"
-                      height="30"
-                      className="d-inline-block align-text-top me-2"
-                    />
                     Logout
                   </NavLink>
                 </li>
               )}
             </ul>
+
+            {/* Collaboration button */}
+            <ul className="navbar-nav ms-3">
+              <li className="nav-item">
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive ? "btn btn-primary active" : "btn btn-primary"
+                  }
+                  to="/contact"
+                  role="button"
+                  onClick={handleNavItemClick}
+                >
+                  Let's Collaborate
+                </NavLink>
+              </li>
+            </ul>
           </div>
         </div>
       </nav>
-    </>
+    </div>
   );
 }

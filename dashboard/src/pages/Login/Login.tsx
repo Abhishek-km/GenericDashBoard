@@ -9,7 +9,7 @@ export default function Login() {
     password: "",
   });
 
-  const { storetoken } = useAuth() || {}; // Destructure storetoken from useAuth
+  const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -19,10 +19,9 @@ export default function Login() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(user);
 
     try {
-      const response = await fetch("https://example.com/api/login", {
+      const response = await fetch("https://reqres.in/api/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -33,11 +32,14 @@ export default function Login() {
       const data = await response.json();
 
       if (response.ok) {
-        if (storetoken) {
-          storetoken(data.token); // Store the token in local storage
-        }
+        console.log(data);
+        login(data.id, data.email, data.firstName, data.role, data.token);
+        setUser({
+          email: "",
+          password: "",
+        }); // Store token & user email
+        alert("Login successful!");
         navigate("/dashboard"); // Redirect to the dashboard
-        console.log("Login successful:", data);
       } else {
         // Show error message
         console.error("Login failed:", data.message);
@@ -53,49 +55,49 @@ export default function Login() {
 
   return (
     <>
-      <section>
-        <main>
-          <div className="section-registration" style={{ backgroundColor: "#007bff" }}>
-            <div className="container">
-              {/* Login Form */}
-              <div className="registration-form">
-                <h1 className="main-heading mb-3 text-center">Login Form</h1>
-                <form onSubmit={handleSubmit} className="login-form">
-                  <div className="form-group">
-                    <label htmlFor="email" className="form-label">Email</label>
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      placeholder="Enter your email"
-                      autoComplete="off"
-                      value={user.email}
-                      onChange={handleInput}
-                      required
-                      className="form-input"
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="password" className="form-label">Password</label>
-                    <input
-                      type="password"
-                      id="password"
-                      name="password"
-                      placeholder="Enter your password"
-                      autoComplete="off"
-                      value={user.password}
-                      onChange={handleInput}
-                      required
-                      className="form-input"
-                    />
-                  </div>
-                  <button type="submit" className="btn btn-submit">Login Now</button>
-                </form>
-              </div>
+      <div className="row g-3 align-items-center container login-container">
+        <h1 className="main-heading mb-3 text-center">Login Form</h1>
+        <form onSubmit={handleSubmit} className="col-form-label">
+          <div className="col-auto">
+            <label htmlFor="email" className="form-label">
+              Email
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Enter your email"
+              autoComplete="off"
+              value={user.email}
+              onChange={handleInput}
+              required
+              className="form-control"
+            />
+          </div>
+          <div className="col-auto">
+            <label htmlFor="password" className="col-form-label">
+              Password
+            </label>
+            <div className="col-auto">
+              <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Enter your password"
+                autoComplete="off"
+                value={user.password}
+                onChange={handleInput}
+                required
+                className="form-control"
+              />
             </div>
           </div>
-        </main>
-      </section>
+          <br />
+          <button type="submit" className="btn btn-submit">
+            Login Now
+          </button>
+        </form>
+      </div>
     </>
   );
 }

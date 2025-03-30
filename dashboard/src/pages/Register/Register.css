@@ -1,62 +1,27 @@
-/* Center the login form */
-.section-registration {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh; /* Full viewport height */
-  background-color: #f9f9f9; /* Light background color */
-}
-
-.registration-form {
-  background-color: #ffffff; /* White background for the form */
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for better appearance */
-  width: 100%;
-  max-width: 400px; /* Limit the form width */
-}
-
-.main-heading {
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-}
-
-.form-group {
-  margin-bottom: 1rem;
-}
-
-.form-input {
-  width: 100%;
-  padding: 0.75rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 1rem;
-}
-
-.btn-submit {
-  width: 100%;
-  padding: 0.75rem;
-  background-color: #007bff;
-  color: #ffffff;
-  border: none;
-  border-radius: 4px;
-  font-size: 1rem;
-  cursor: pointer;
-}
-
-.btn-submit:hover {
-  background-color: #0056b3;
-}
-
-.form-footer {
-  margin-top: 1rem;
-}
-
-.forgot-password {
-  color: #007bff;
-  text-decoration: none;
-}
-
-.forgot-password:hover {
-  text-decoration: underline;
-}
+/* Style for input fields */
+.register-container .form-control {
+    width: 20rem; /* Adjust the width dynamically (20 times the root font size) */
+    height: 2.5rem; /* Adjust the height dynamically */
+    font-size: 1rem; /* Relative to the root font size */
+    padding: 0.5rem 1rem; /* Padding inside the input field */
+    border-radius: 0.25rem; /* Optional: Add rounded corners */
+    border: 1px solid #020202; /* Optional: Add a border *//* Remove any default shadow */
+  }
+  
+  
+  /* Style for the submit button */
+  .register-container .btn-submit {
+    width: 10rem; /* Adjust the width dynamically */
+    height: 2.5rem; /* Adjust the height dynamically */
+    font-size: 1rem; /* Relative to the root font size */
+    background-color: #007bff; /* Button background color */
+    color: #fff; /* Button text color */
+    border: none; /* Remove border */
+    border-radius: 0.25rem; /* Optional: Add rounded corners */
+    cursor: pointer; /* Change cursor to pointer */
+    transition: background-color 0.3s ease; /* Add smooth hover effect */
+  }
+  
+  .register-container .btn-submit:hover {
+    background-color: #118bf0; /* Darker blue on hover */
+  }

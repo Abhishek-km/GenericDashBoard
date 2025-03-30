@@ -9,8 +9,8 @@ export default function Logout() {
     if (logout) {
       logout(); // Call the logout function from Auth context
     }
-    window.location.href = '/login'; // Redirect to login page
+    window.location.href = '/'; // Redirect to login page
   }, [logout]);
 
-  return <Navigate to="/login" />;
+  return <Navigate to="/" />;
 }

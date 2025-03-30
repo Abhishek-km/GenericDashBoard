@@ -1,40 +1,62 @@
-import React, { createContext, useState, ReactNode, useContext } from "react"; // Added useContext
+import React, { createContext, useState, useContext, useEffect } from "react";
 
-interface AuthContextType {
-    user: string | null;
-    login: (username: string) => void;
-    logout: () => void;
-    storetoken: (token: string) => void; // Add storetoken to the interface
+// Define User and AuthContext types
+interface User {
+  id: string;
+  email: string;
+  name: string;
+  role: string;
 }
 
-export const AuthContext = createContext<AuthContextType | null>(null);
+interface AuthContextType {
+  user: User | null;
+  login: (id: string, email: string, name: string, role: string, token: string) => void;
+  logout: () => void;
+  isAuthenticated: boolean;
+}
 
-const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-    const [user, setUser] = useState<string | null>(null);
+const AuthContext = createContext<AuthContextType | null>(null);
 
-    const login = (username: string) => {
-        setUser(username);
-        // Store token in localStorage or cookies if needed
-    };
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [user, setUser] = useState<User | null>(() => {
+    const storedUser = localStorage.getItem("user");
+    return storedUser ? JSON.parse(storedUser) : null;
+  });
 
-    const logout = () => {
-        setUser(null);
-        // Remove token from storage
-    };
+  const isAuthenticated = !!user; // Returns true if user is logged in
 
-    const storetoken = (token: string) => {
-        localStorage.setItem("token", token); // Store token in local storage
-    };
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setUser(null); // Auto logout if token is missing
+    }
+  }, []);
 
-    return (
-        <AuthContext.Provider value={{ user, login, logout, storetoken }}>
-            {children}
-        </AuthContext.Provider>
-    );
+  const login = (id: string, email: string, name: string, role: string, token: string) => {
+    const userData: User = { id, email, name, role };
+    setUser(userData);
+    localStorage.setItem("user", JSON.stringify(userData));
+    localStorage.setItem("token", token);
+  };
+
+  const logout = () => {
+    setUser(null);
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+  };
+
+  return (
+    <AuthContext.Provider value={{ user, login, logout, isAuthenticated }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
+// Hook for using authentication
 export const useAuth = () => {
-    return useContext(AuthContext); // Correctly use useContext
+  const context = useContext(AuthContext);
+  if (!context) throw new Error("useAuth must be used within an AuthProvider");
+  return context;
 };
 
 export default AuthProvider;
