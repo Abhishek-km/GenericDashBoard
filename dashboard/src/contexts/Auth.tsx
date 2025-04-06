@@ -2,15 +2,14 @@ import React, { createContext, useState, useContext, useEffect } from "react";
 
 // Define User and AuthContext types
 interface User {
-  id: string;
-  email: string;
-  name: string;
-  role: string;
+  userID: string;
+  username:string;
+  type: string;
 }
 
 interface AuthContextType {
   user: User | null;
-  login: (id: string, email: string, name: string, role: string, token: string) => void;
+  login: (userID: string,username:string, type: string, token: string) => void;
   logout: () => void;
   isAuthenticated: boolean;
 }
@@ -32,8 +31,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   }, []);
 
-  const login = (id: string, email: string, name: string, role: string, token: string) => {
-    const userData: User = { id, email, name, role };
+  const login = (userID: string, username:string, type: string, token: string) => {
+    const userData: User = {userID,username, type};
     setUser(userData);
     localStorage.setItem("user", JSON.stringify(userData));
     localStorage.setItem("token", token);

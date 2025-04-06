@@ -37,7 +37,7 @@ export default function Register() {
 
       if (response.ok) {
         console.log(data);
-        login(data.id, data.email, data.firstName, data.role, data.token);
+        //login(data.id, data.role, data.token);
         navigate("/dashboard"); // Redirect to the dashboard
         console.log("Registration successful:", data);
       } else {

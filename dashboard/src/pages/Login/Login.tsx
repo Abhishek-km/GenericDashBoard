@@ -2,17 +2,26 @@ import React from "react";
 import "./Login.css";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/Auth"; // Import useAuth
+import { loginUser } from "../../api/api";
+import { jwtDecode } from "jwt-decode";
 
 export default function Login() {
   const [user, setUser] = React.useState({
-    email: "",
+    username: "",
     password: "",
+    type: "",
   });
+
+  interface JwtPayload {
+    unique_name: string;
+  }
 
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInput = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     setUser((prevUser) => ({ ...prevUser, [name]: value }));
   };
@@ -21,29 +30,26 @@ export default function Login() {
     e.preventDefault();
 
     try {
-      const response = await fetch("https://reqres.in/api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(user),
-      });
+      const response = await loginUser(user); // Call the API function
+      const data = await response.data; // Parse the response data
+      const token = data.token; // Extract the token from the response
+      const decoded = jwtDecode<JwtPayload>(token); // Decode the token
 
-      const data = await response.json();
+      if (token !== null) {
+        // Store token & user username
+        login(decoded.unique_name, user.username, user.type, data.token);
 
-      if (response.ok) {
-        console.log(data);
-        login(data.id, data.email, data.firstName, data.role, data.token);
         setUser({
-          email: "",
+          username: "",
           password: "",
-        }); // Store token & user email
-        alert("Login successful!");
+          type: "",
+        }); // Reset the form fields
+
         navigate("/dashboard"); // Redirect to the dashboard
       } else {
         // Show error message
         console.error("Login failed:", data.message);
-        alert("Invalid email or password. Please try again.");
+        alert("Invalid username or password. Please try again.");
         navigate("/dashboard");
       }
     } catch (error) {
@@ -59,16 +65,16 @@ export default function Login() {
         <h1 className="main-heading mb-3 text-center">Login Form</h1>
         <form onSubmit={handleSubmit} className="col-form-label">
           <div className="col-auto">
-            <label htmlFor="email" className="form-label">
-              Email
+            <label htmlFor="username" className="form-label">
+              User Name
             </label>
             <input
-              type="email"
-              id="email"
-              name="email"
-              placeholder="Enter your email"
+              type="text"
+              id="username"
+              name="username"
+              placeholder="Enter your username"
               autoComplete="off"
-              value={user.email}
+              value={user.username}
               onChange={handleInput}
               required
               className="form-control"
@@ -90,6 +96,27 @@ export default function Login() {
                 required
                 className="form-control"
               />
+            </div>
+          </div>
+          <div className="col-auto">
+            <label htmlFor="type" className="col-form-label">
+              User Type
+            </label>
+            <div className="col-auto">
+              <select
+                className="form-select form-control"
+                id="type"
+                name="type"
+                value={user.type}
+                onChange={handleInput}
+                required
+              >
+                <option value="" disabled>
+                  Select your user type
+                </option>
+                <option value="employee">Employee</option>
+                <option value="client">Client</option>
+              </select>
             </div>
           </div>
           <br />
