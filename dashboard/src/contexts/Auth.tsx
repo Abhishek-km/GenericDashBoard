@@ -1,22 +1,44 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
 
-// Define User and AuthContext types
+// Define Permission and User types
+interface Permission {
+  moduleId: number;
+  moduleName: string;
+  groupId: number;
+  groupName: string;
+  roleId: number;
+  roleName: string;
+  canRead: boolean;
+  canAdd: boolean;
+  canUpdate: boolean;
+  canDelete: boolean;
+}
+
 interface User {
   userID: string;
-  username:string;
+  username: string;
   type: string;
+  permission: Permission[]; // Changed to an array of Permission objects
 }
 
 interface AuthContextType {
   user: User | null;
-  login: (userID: string,username:string, type: string, token: string) => void;
+  login: (
+    userID: string,
+    username: string,
+    type: string,
+    token: string,
+    permissions: Permission[]
+  ) => void;
   logout: () => void;
   isAuthenticated: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const [user, setUser] = useState<User | null>(() => {
     const storedUser = localStorage.getItem("user");
     return storedUser ? JSON.parse(storedUser) : null;
@@ -31,8 +53,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   }, []);
 
-  const login = (userID: string, username:string, type: string, token: string) => {
-    const userData: User = {userID,username, type};
+  const login = (
+    userID: string,
+    username: string,
+    type: string,
+    token: string,
+    permissions: Permission[]
+  ) => {
+    const userData: User = { userID, username, type, permission: permissions };
     setUser(userData);
     localStorage.setItem("user", JSON.stringify(userData));
     localStorage.setItem("token", token);

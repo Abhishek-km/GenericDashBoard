@@ -2,7 +2,7 @@ import React from "react";
 import "./Login.css";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/Auth"; // Import useAuth
-import { loginUser } from "../../api/api";
+import { loginUser, UserPermissions } from "../../api/api";
 import { jwtDecode } from "jwt-decode";
 
 export default function Login() {
@@ -36,8 +36,28 @@ export default function Login() {
       const decoded = jwtDecode<JwtPayload>(token); // Decode the token
 
       if (token !== null) {
-        // Store token & user username
-        login(decoded.unique_name, user.username, user.type, data.token);
+        var permissions = []; // Initialize permissions as an empty array
+
+        if (user.type === "employee") {
+          // Fetch permissions for the user
+          const permissionRespone = await UserPermissions(
+            decoded.unique_name,
+            user.username
+          );
+
+          permissions = permissionRespone.data; // Access the array of permissions
+
+          console.log(permissions);
+        }
+
+        // Pass the array of permissions to the login function
+        login(
+          decoded.unique_name,
+          user.username,
+          user.type,
+          data.token,
+          permissions
+        );
 
         setUser({
           username: "",
@@ -45,17 +65,17 @@ export default function Login() {
           type: "",
         }); // Reset the form fields
 
-        navigate("/dashboard"); // Redirect to the dashboard
+        navigate("/Dashboard"); // Redirect to the dashboard
       } else {
         // Show error message
         console.error("Login failed:", data.message);
         alert("Invalid username or password. Please try again.");
-        navigate("/dashboard");
+        navigate("/");
       }
     } catch (error) {
       console.error("Error during login:", error);
       alert("An error occurred. Please try again later.");
-      navigate("/dashboard");
+      navigate("/");
     }
   };
 

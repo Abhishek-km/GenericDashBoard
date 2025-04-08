@@ -4,7 +4,7 @@ import { useAuth } from "../contexts/Auth"; // Import useAuth
 import "./Header.css"; // Import the CSS for styling
 
 export default function Header() {
-  const { user, logout } = useAuth() || {}; // Destructure user and logout from useAuth
+  const { user } = useAuth() || {}; // Destructure user and logout from useAuth
 
   const navbarCollapseRef = useRef<HTMLDivElement | null>(null);
 
@@ -15,15 +15,6 @@ export default function Header() {
     ) {
       navbarCollapseRef.current.classList.remove("show");
     }
-  };
-
-  // Handle the logout functionality
-  const handleLogout = (e: React.MouseEvent) => {
-    e.preventDefault();
-    if (logout) {
-      logout(); // Call logout function
-    }
-    handleNavItemClick(); // Collapse the navbar after logout
   };
 
   return (
@@ -118,7 +109,7 @@ export default function Header() {
                       isActive ? "nav-link active" : "nav-link"
                     }
                     to="/logout"
-                    onClick={handleLogout} // Handle logout logic here
+                    onClick={handleNavItemClick} // Handle logout logic here
                   >
                     Logout
                   </NavLink>

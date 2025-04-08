@@ -33,9 +33,11 @@ export const loginUser = async (userData: {
   return axiosInstance.post("auth/login", userData);
 };
 
-// export const getUserProfile = async () => {
-//   return axiosInstance.get("/users/2");
-// };
+export const UserPermissions = async (userId: string, username: string) => {
+  return axiosInstance.get(
+    `Users/permissions?username=${username}&username=${username}`
+  );
+};
 
 // // Add more APIs here
 // export const getDashboardData = async () => {
