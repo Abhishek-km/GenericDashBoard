@@ -16,7 +16,7 @@ interface Permission {
 
 interface User {
   userID: string;
-  username: string;
+  email: string;
   type: string;
   permission: Permission[]; // Changed to an array of Permission objects
 }
@@ -25,7 +25,7 @@ interface AuthContextType {
   user: User | null;
   login: (
     userID: string,
-    username: string,
+    email: string,
     type: string,
     token: string,
     permissions: Permission[]
@@ -55,12 +55,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const login = (
     userID: string,
-    username: string,
+    email: string,
     type: string,
     token: string,
     permissions: Permission[]
   ) => {
-    const userData: User = { userID, username, type, permission: permissions };
+    const userData: User = { userID, email, type, permission: permissions };
     setUser(userData);
     localStorage.setItem("user", JSON.stringify(userData));
     localStorage.setItem("token", token);

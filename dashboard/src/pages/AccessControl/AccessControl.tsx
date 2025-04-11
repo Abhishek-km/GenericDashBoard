@@ -71,7 +71,7 @@ export default function AccessControl() {
       const newRoleData = {
         roleName: newRole.roleName,
         description: newRole.description,
-        createdBy: Number(user.userID), // Pass the logged-in user's ID
+        createdBy: 1, // Currently we are getting email, in the login API, so harding codeing for now
       };
       try {
         const response = await addRoles(newRoleData); // Call the API to add a new role
@@ -107,7 +107,7 @@ export default function AccessControl() {
 
   return (
     <div className="container">
-      <h1>Access Control</h1>
+      <h1>Roles</h1>
 
       {/* Role Table */}
       <table className="table table-bordered">

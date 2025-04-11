@@ -7,7 +7,7 @@ import { jwtDecode } from "jwt-decode";
 
 export default function Login() {
   const [user, setUser] = React.useState({
-    username: "",
+    email: "",
     password: "",
     type: "",
   });
@@ -43,8 +43,7 @@ export default function Login() {
           // Fetch permissions for the user
           alert(decoded.unique_name); // Show the decoded unique name in an alert
           const permissionRespone = await UserPermissions(
-            decoded.unique_name,
-            user.username
+            decoded.unique_name
           );
 
           permissions = permissionRespone.data; // Access the array of permissions
@@ -56,14 +55,14 @@ export default function Login() {
         // Pass the array of permissions to the login function
         login(
           decoded.unique_name,
-          user.username,
+          user.email,
           user.type,
           data.token,
           permissions
         );
 
         setUser({
-          username: "",
+          email: "",
           password: "",
           type: "",
         }); // Reset the form fields
@@ -72,7 +71,7 @@ export default function Login() {
       } else {
         // Show error message
         console.error("Login failed:", data.message);
-        alert("Invalid username or password. Please try again.");
+        alert("Invalid email or password. Please try again.");
         navigate("/");
       }
     } catch (error) {
@@ -88,16 +87,16 @@ export default function Login() {
         <h1 className="main-heading mb-3 text-center">Login Form</h1>
         <form onSubmit={handleSubmit} className="col-form-label">
           <div className="col-auto">
-            <label htmlFor="username" className="form-label">
+            <label htmlFor="email" className="form-label">
               User Name
             </label>
             <input
-              type="text"
-              id="username"
-              name="username"
-              placeholder="Enter your username"
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Enter your email"
               autoComplete="off"
-              value={user.username}
+              value={user.email}
               onChange={handleInput}
               required
               className="form-control"

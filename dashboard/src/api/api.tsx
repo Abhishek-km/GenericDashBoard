@@ -26,16 +26,16 @@ const axiosInstance = axios.create({
 
 // API functions
 export const loginUser = async (userData: {
-  username: string;
+  email: string;
   password: string;
   type: string;
 }) => {
   return axiosInstance.post("auth/login", userData);
 };
 
-export const UserPermissions = async (userId: string, username: string) => {
+export const UserPermissions = async (email: string) => {
   return axiosInstance.get(
-    `Users/permissions?username=${username}&username=${username}`
+    `Users/permissions?email=${email}&email=${email}`
   );
 };
 
