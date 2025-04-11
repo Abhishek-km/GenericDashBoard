@@ -6,14 +6,23 @@ import { useAuth } from "../contexts/Auth";
 export default function SideBar() {
   const { user } = useAuth(); // Access the logged-in user's data
 
-  // Dynamically generate sidebar items based on user permissions
-  const sidebarItems = [
-    { name: "Dashboard", path: "/Dashboard" }, // Always include Dashboard
-    ...(user?.permission.map((perm) => ({
-      name: perm.moduleName,
-      path: `/${perm.moduleName.replace(/\s+/g, "")}`, // Generate a path based on the module name
-    })) || []),
-  ];
+  // Always include Dashboard
+  const baseItems = [{ name: "Dashboard", path: "/Dashboard" }];
+
+  // Create sidebar items from permissions
+  const permissionItems = (user?.permission || []).map((perm) => ({
+    name: perm.moduleName,
+    path: `/${perm.moduleName.replace(/\s+/g, "")}`,
+  }));
+
+  // Add Access Control if any permission has canRead = true
+  const showAccessControl = user?.permission?.some((perm) => perm.canRead);
+  const accessControlItem = showAccessControl
+    ? [{ name: "Access Control", path: "/AccessControl" }]
+    : [];
+
+  // Final sidebar items
+  const sidebarItems = [...baseItems, ...permissionItems, ...accessControlItem];
 
   return (
     <div

@@ -34,12 +34,14 @@ export default function Login() {
       const data = await response.data; // Parse the response data
       const token = data.token; // Extract the token from the response
       const decoded = jwtDecode<JwtPayload>(token); // Decode the token
+      console.log(decoded); // Show the decoded unique name in an alert
 
       if (token !== null) {
         var permissions = []; // Initialize permissions as an empty array
 
         if (user.type === "employee") {
           // Fetch permissions for the user
+          alert(decoded.unique_name); // Show the decoded unique name in an alert
           const permissionRespone = await UserPermissions(
             decoded.unique_name,
             user.username
@@ -50,6 +52,7 @@ export default function Login() {
           console.log(permissions);
         }
 
+        alert(decoded.unique_name); // Show the decoded unique name in an alert
         // Pass the array of permissions to the login function
         login(
           decoded.unique_name,

@@ -49,3 +49,8 @@
     /* Darker blue for active button */
     border-color: #0056b3 !important;
 }
+
+.header-container {
+    background-color: #0ecef0;
+    /* Light gray background for the header */
+}

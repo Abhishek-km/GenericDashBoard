@@ -1,10 +1,12 @@
 .active-link {
-    background-color: #007bff !important; /* Blue highlight */
-    color: white !important;
-    font-weight: bold;
-    border-radius: 5px;
-  }
+  background-color: #007bff !important;
+  /* Blue highlight */
+  color: white !important;
+  font-weight: bold;
+  border-radius: 5px;
+}
 
-  .navbar-toggler-icon {
-    background-color: #adaaaa; /* Black color */
-  }
+.navbar-toggler-icon {
+  background-color: #adaaaa;
+  /* Black color */
+}
