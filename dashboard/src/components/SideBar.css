@@ -1,7 +1,7 @@
 .active-link {
   background-color: #007bff !important;
   /* Blue highlight */
-  color: white !important;
+  color: rgb(236, 227, 227) !important;
   font-weight: bold;
   border-radius: 5px;
 }
@@ -9,4 +9,10 @@
 .navbar-toggler-icon {
   background-color: #adaaaa;
   /* Black color */
+}
+
+
+.nav-item{
+  
+  padding:auto;
 }

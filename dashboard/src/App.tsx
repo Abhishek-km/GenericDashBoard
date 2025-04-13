@@ -21,7 +21,7 @@ function App() {
             minHeight: "100vh",
           }}
         >
-          <Header /> {/* Header component */}
+          {!user ? <Header /> : <></>} {/* Header component */}
           <div style={{ display: "flex", flex: 1 }}>
             {" "}
             {/* Main content area */}

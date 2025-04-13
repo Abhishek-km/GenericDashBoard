@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 import { getRoles, updateRoles, addRoles, deleteRoles } from "../../api/api"; // Import only getRoles
 import { useAuth } from "../../contexts/Auth"; // Import useAuth
+import { useLocation } from "react-router-dom";
 
 interface Role {
   roleId: number;
@@ -20,6 +21,8 @@ export default function AccessControl() {
   }); // State for new/edit role form
   const [showForm, setShowForm] = useState(false); // State to toggle form visibility
   const [isEditing, setIsEditing] = useState(false); // State to track if editing a role
+  const location = useLocation();
+  const { moduleId } = location.state || {};
 
   // Redirect to login if the user is not logged in
   useEffect(() => {
@@ -30,6 +33,7 @@ export default function AccessControl() {
 
   // Fetch roles from the API
   useEffect(() => {
+    alert(moduleId);
     const fetchRoles = async () => {
       try {
         const response = await getRoles(); // Call GET API to fetch roles
@@ -107,6 +111,8 @@ export default function AccessControl() {
 
   return (
     <div className="container">
+
+      <section id="Roles-Table" >
       <h1>Roles</h1>
 
       {/* Role Table */}
@@ -203,6 +209,7 @@ export default function AccessControl() {
           </button>
         </form>
       )}
+      </section>
     </div>
   );
 }
